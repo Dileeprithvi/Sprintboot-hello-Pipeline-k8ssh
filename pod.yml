@@ -9,4 +9,4 @@ spec:
     - name: nodeapp
       image: dileep95/spring:tagVersion
       ports:
-        - containerPort: 8080
+        - containerPort: 8050
