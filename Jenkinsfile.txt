@@ -9,9 +9,9 @@ pipeline {
       maven 'Maven'
       jdk 'JAVA_HOME'
     }
- // environment{
-  	//DOCKER_TAG = DockerTag()
- // }
+  environment{
+  	DOCKER_TAG = DockerTag()
+ }
   stages {
     stage('Git Checkout') {
       steps {
