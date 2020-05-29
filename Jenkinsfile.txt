@@ -1,0 +1,50 @@
+def mvn
+pipeline {
+  agent { label 'master' }
+    tools {
+      maven 'Maven'
+      jdk 'JAVA_HOME'
+    }
+  stages {
+    stage('Git Checkout') {
+      steps {
+		      git credentialsId: 'git_creds_dileep', url: 'https://github.com/Dileeprithvi/Sprintboot-hello-Ansible.git'
+      }
+    }
+    stage ('Maven Build') {
+      steps {
+        script {
+          mvn= tool (name: 'Maven', type: 'maven') + '/bin/mvn'
+        sh "${mvn} clean package"
+        }
+      }
+    }
+    stage('Build Docker Image'){
+      steps {
+        sh 'docker build -t dileep95/firstdeploy:$BUILD_NUMBER .'
+        }
+      }  
+     stage('Docker Container'){
+       steps{
+       withCredentials([usernamePassword(credentialsId: 'dockercreds', passwordVariable: 'docker_passwd', usernameVariable: 'docker_username')]) {
+       	  sh 'docker login -u ${docker_username} -p ${docker_passwd}'
+          sh 'docker push dileep95/firstdeploy:$BUILD_NUMBER'
+        }
+      }
+    }  
+    
+    stage('Copy the war'){
+      steps {
+        sh 'sudo cp target/*.war /var/lib/jenkins/ansible'
+	sh 'sudo chown -R jenkins:jenkins /var/lib/jenkins/ansible/'
+        }
+      }     
+	
+    stage('Ansible Playbook'){
+      steps {
+        ansiblePlaybook credentialsId: 'ansible', inventory: 'hosts', playbook: 'playbook.yml'
+        }
+      }  	
+}
+
+}
