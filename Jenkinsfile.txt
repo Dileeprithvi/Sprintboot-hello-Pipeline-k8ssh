@@ -9,9 +9,9 @@ pipeline {
       maven 'Maven'
       jdk 'JAVA_HOME'
     }
-  environment{
-  	DOCKER_TAG = DockerTag()
-  }
+ // environment{
+  	//DOCKER_TAG = DockerTag()
+ // }
   stages {
     stage('Git Checkout') {
       steps {
@@ -28,7 +28,7 @@ pipeline {
     }
     stage('Build Docker Image'){
       steps {
-        sh 'docker build . -t dileep95/spring:$DockerTag'
+        sh 'docker build . -t dileep95/spring:$DOCKER_TAG'
         }
       }  
      stage('Docker Container'){
