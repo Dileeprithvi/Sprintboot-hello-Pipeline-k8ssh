@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: nodeapp
-      image: 
+      image: dileep95/spring:tagVersion
       ports:
         - containerPort: 8080
