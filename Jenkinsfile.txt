@@ -45,9 +45,10 @@ pipeline {
 	      sh "./replace.sh ${DOCKER_TAG}"
                 sshagent(['k8s']) {	      
 			sh "scp -o StrictHostKeyChecking=no services.yml pod.yml prithdileep@34.66.80.51:/home/prithdileep"
-                }
             }
         }
+    }
+	}
 post {
     always {
 sh 'echo "This will always run"'
