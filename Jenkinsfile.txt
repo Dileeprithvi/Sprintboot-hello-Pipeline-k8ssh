@@ -41,7 +41,7 @@ pipeline {
     }    	
 }
 
-    stage('ssh') {
+    stage('ssh'){
 	steps{
               sh "chmod +x replace.sh"
 	      sh "./replace.sh ${DOCKER_TAG}"
