@@ -41,9 +41,19 @@ pipeline {
     }    	
 }
 
+    stage('ssh') {
+	steps{
+              sh "chmod +x replace.sh"
+	      sh "./replace.sh ${DOCKER_TAG}"
+                sshagent(['k8s']) {	      
+			sh "scp -o StrictHostKeyChecking=no services.yml pod.yml prithdileep@34.66.80.51:/home/prithdileep"
+                }
+            }
+        }
 post {
     always {
 sh 'echo "This will always run"'
+mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "Success: Project name -> ${env.JOB_NAME}", to: "prithdileep@gmail.com";
     }
     failure {
 sh 'echo "This will run only if failed"'
