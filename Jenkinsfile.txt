@@ -39,8 +39,6 @@ pipeline {
         }
       }
     }    	
-}
-
     stage('ssh'){
 	steps{
               sh "chmod +x replace.sh"
