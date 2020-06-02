@@ -13,11 +13,6 @@ pipeline {
   	DOCKER_TAG = DockerTag()
  }
   stages {
-    stage('Git Checkout') {
-      steps {
-		      git credentialsId: 'git_creds_dileep', url: 'https://github.com/Dileeprithvi/Sprintboot-hello-Ansible.git'
-      }
-    }
     stage ('Maven Build') {
       steps {
         script {
@@ -44,7 +39,7 @@ pipeline {
               sh "chmod +x replace.sh"
 	      sh "./replace.sh ${DOCKER_TAG}"
                 sshagent(['k8s']) {	      
-			sh "scp -o StrictHostKeyChecking=no services.yml pod.yml prithdileep@34.66.80.51:/home/prithdileep"
+			sh "scp -o StrictHostKeyChecking=no services.yml pod.yml prithdileep@104.154.78.159:/home/prithdileep"
             }
         }
     }
