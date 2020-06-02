@@ -40,9 +40,17 @@ pipeline {
 	      sh "./replace.sh ${DOCKER_TAG}"
                 sshagent(['k8s']) {	      
 			sh "scp -o StrictHostKeyChecking=no services.yml changed-pod.yml prithdileep@104.154.78.159:/home/prithdileep"
+		script{
+		try{
+		  sh "ssh prithdileep@104.154.78.159 kubectl create -f ."
+		  }
+		catch(error){
+		sh "ssh prithdileep@104.154.78.159 kubectl apply -f ."
             }
         }
     }
+   }
+  } 
 	}
 post {
     always {
