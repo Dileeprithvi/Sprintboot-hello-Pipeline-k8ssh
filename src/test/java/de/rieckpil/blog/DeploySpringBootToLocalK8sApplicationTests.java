@@ -1,10 +1,10 @@
-package com.example.helloworld;
+package de.rieckpil.blog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HelloworldApplicationTests {
+class DeploySpringBootToLocalK8sApplicationTests {
 
 	@Test
 	void contextLoads() {

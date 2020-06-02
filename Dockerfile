@@ -1,5 +1,4 @@
-FROM tomcat:9-alpine
-MAINTAINER Dileep Prithvi
-ADD target/*.war /usr/local/tomcat/webapps/
-RUN value=`cat conf/server.xml` && echo "${value//8080/8050}" >| conf/server.xml
-CMD ["catalina.sh", "run"]
+FROM openjdk:11-jdk
+VOLUME /tmp
+COPY target/deploy-spring-boot-to-local-k8s.jar app.jar
+CMD [ "sh", "-c", "java -jar /app.jar" ]
