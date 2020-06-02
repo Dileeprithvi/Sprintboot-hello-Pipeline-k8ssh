@@ -1,12 +1,14 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: nodeapp
+  name: valaxy-service
+  labels:
+    app: valaxy-devops-project
 spec:
   selector:
-    app: nodeapp
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8050
+    app: valaxy-devops-project
   type: LoadBalancer
+  ports:
+    - port: 8050
+      targetPort: 8050
+      nodePort: 31200

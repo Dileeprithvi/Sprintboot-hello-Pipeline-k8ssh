@@ -1,12 +1,26 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
 metadata:
-  name: nodeapp
-  labels:
-    app: nodeapp
+  name: valaxy-deployment
 spec:
-  containers:
-    - name: nodeapp
-      image: dileep95/spring:tagVersion
-      ports:
+  selector:
+    matchLabels:
+      app: valaxy-devops-project
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: valaxy-devops-project
+    spec:
+      containers:
+      - name: valaxy-devops-project
+        image: dileep95/spring:tagVersion
+        imagePullPolicy: Always
+        ports:
         - containerPort: 8050
